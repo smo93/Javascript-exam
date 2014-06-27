@@ -27,9 +27,23 @@ $(document).ready(function() {
         $('#second-second-digit').text((time[1] % 10).toString());
     }
 
-    $('#count-up').on('click', { timeHandler: increaseTime, startTime: [0, 0], finishTime: "user input", message: "Time reached!" }, startTimer);
+    $('#count-up').on('click',
+        {
+            timeHandler: increaseTime,
+            startTime: [0, 0],
+            finishTime: "user input",
+            message: "Time reached!" 
+        },
+        startTimer);
 
-    $('#count-down').on('click', { timeHandler: decreaseTime, startTime: "user input", finishTime: [0, 0], message: "Time's up!" }, startTimer);
+    $('#count-down').on('click',
+        {
+            timeHandler: decreaseTime,
+            startTime: "user input",
+            finishTime: [0, 0],
+            message: "Time's up!"
+        },
+        startTimer);
 
     function startTimer(event) {
         clearInterval(intervalId);
@@ -38,8 +52,10 @@ $(document).ready(function() {
         if(isNaN(userTime[0])) { userTime[0] = 0; }
         if(isNaN(userTime[1])) { userTime[1] = 0; }
 
-        if(event.data.startTime === "user input") { event.data.startTime = userTime; }
-        if(event.data.finishTime === "user input") { event.data.finishTime = userTime; }
+        if(event.data.startTime === "user input")
+            { event.data.startTime = userTime; }
+        if(event.data.finishTime === "user input")
+            { event.data.finishTime = userTime; }
 
         time = event.data.startTime;
 
