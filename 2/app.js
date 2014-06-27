@@ -28,6 +28,8 @@ $(document).ready(function() {
     }
 
     function startTimer(event) {
+        var startTime, finishTime,
+            message = event.data.message;
         clearInterval(intervalId);
 
         userTime = [parseInt($('#minutes').val()), parseInt($('#seconds').val())];
@@ -35,11 +37,11 @@ $(document).ready(function() {
         if(isNaN(userTime[1])) { userTime[1] = 0; }
 
         if(event.data.startTime === "user input")
-            { event.data.startTime = userTime; }
+            { startTime = userTime.slice(0); finishTime = event.data.finishTime.slice(0); }
         if(event.data.finishTime === "user input")
-            { event.data.finishTime = userTime; }
+            { startTime = event.data.startTime.slice(0); finishTime = userTime.slice(0); }
 
-        time = event.data.startTime.slice(0);
+        time = startTime;
 
         updateTime();
 
@@ -47,8 +49,8 @@ $(document).ready(function() {
             event.data.timeHandler();
             updateTime();
 
-            if(time[0] === event.data.finishTime[0] && time[1] === event.data.finishTime[1]) {
-                alert(event.data.message);
+            if(time[0] === finishTime[0] && time[1] === finishTime[1]) {
+                alert(message);
                 clearInterval(intervalId);
             }
         }, 1000);
