@@ -27,6 +27,34 @@ $(document).ready(function() {
         $('#second-second-digit').text((time[1] % 10).toString());
     }
 
+    function startTimer(event) {
+        clearInterval(intervalId);
+
+        userTime = [parseInt($('#minutes').val()), parseInt($('#seconds').val())];
+        if(isNaN(userTime[0])) { userTime[0] = 0; }
+        if(isNaN(userTime[1])) { userTime[1] = 0; }
+
+        if(event.data.startTime === "user input")
+            { event.data.startTime = userTime; }
+        if(event.data.finishTime === "user input")
+            { event.data.finishTime = userTime; }
+
+        time = event.data.startTime.slice(0);
+
+        updateTime();
+
+        intervalId = setInterval(function() {
+            event.data.timeHandler();
+            updateTime();
+
+            if(time[0] === event.data.finishTime[0] && time[1] === event.data.finishTime[1]) {
+                alert(event.data.message);
+                clearInterval(intervalId);
+            }
+        }, 1000);
+
+    }
+
     $('#count-up').on('click',
         {
             timeHandler: increaseTime,
@@ -44,34 +72,6 @@ $(document).ready(function() {
             message: "Time's up!"
         },
         startTimer);
-
-    function startTimer(event) {
-        clearInterval(intervalId);
-
-        userTime = [parseInt($('#minutes').val()), parseInt($('#seconds').val())];
-        if(isNaN(userTime[0])) { userTime[0] = 0; }
-        if(isNaN(userTime[1])) { userTime[1] = 0; }
-
-        if(event.data.startTime === "user input")
-            { event.data.startTime = userTime; }
-        if(event.data.finishTime === "user input")
-            { event.data.finishTime = userTime; }
-
-        time = event.data.startTime;
-
-        updateTime();
-
-        intervalId = setInterval(function() {
-            event.data.timeHandler();
-            updateTime();
-
-            if(time[0] === event.data.finishTime[0] && time[1] === event.data.finishTime[1]) {
-                alert(event.data.message);
-                clearInterval(intervalId);
-            }
-        }, 1000);
-
-    }
 
     $('#stop').on('click', function() {
         clearInterval(intervalId);
